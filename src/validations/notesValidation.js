@@ -9,12 +9,11 @@ export const createNoteSchema = {
       'string.min': 'Title should have at least {#limit} characters',
       'any.required': 'Title is required',
     }),
-    content: Joi.string().messages({
+    content: Joi.string().allow('').messages({
       'string.base': 'Content must be a string',
     }),
     tag: Joi.string()
       .valid(...TAGS)
-      .default('Todo')
       .messages({
         'string.base': 'Tag must be a string',
         'any.only':
@@ -29,29 +28,6 @@ export const getAllNotesSchema = {
     perPage: Joi.number().integer().min(5).max(20).default(10),
     tag: Joi.string().valid(...TAGS),
     search: Joi.string().trim().allow(''),
-  }),
-  [Segments.BODY]: Joi.object({
-    page: Joi.number().integer().min(1).default(1).messages({
-      'number.base': `"page" must be a number`,
-      'number.integer': `"page" must be an integer number`,
-      'number.min': `"page" cannot be less then 1`,
-    }),
-    perPage: Joi.number().integer().min(5).max(20).default(10).messages({
-      'number.base': `"perPage" must be a number`,
-      'number.integer': `"perPage" must be an integer`,
-      'number.min': `"perPage" cannot be less than 5`,
-      'number.max': `"perPage" cannot be greater than 20`,
-    }),
-    tag: Joi.string()
-      .valid(...TAGS)
-      .messages({
-        'string.base': 'Tag must be a string',
-        'any.only':
-          'Tag must be one of: Work, Personal, Meeting, Shopping, Ideas, Travel, Finance, Health, Important, Todo ',
-      }),
-    search: Joi.string().allow('').default('').messages({
-      'string.base': `"search" must be a string`,
-    }),
   }),
 };
 
